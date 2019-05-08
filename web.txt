@@ -1,0 +1,73 @@
+
+改后缀
+引入  名称   build path----configlure build path
+      libraries-----add  external JARS...
+
+
+加载驱动
+package lhh;
+public class sleep {
+  public static void main(String [] args){
+	  try{
+		  Class.forName("com.mysql.jdbc.Driver");
+		  System.out.println("成功找到驱动类");
+	  }
+	  catch(ClassNotFoundException e){
+		  System.out.println("无法找到驱动类");
+	  }
+	  finally{
+		  System.out.println("123");
+	  }
+  }
+}
+
+
+增删改
+package lhh;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Collection;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Statement;
+
+public class sleep {
+  public static void main(String [] args) throws SQLException{
+	  //加载驱动类
+	  Connection con =null;
+	  try{
+		  Class.forName("com.mysql.jdbc.Driver");
+		  System.out.println("加载成功");
+	//连接数据库
+		  con =(Connection)DriverManager.getConnection(
+			"jdbc:mysql://127.0.0.1:3306/studb","root","1120.." );
+		  System.out.println("connect创建成功！");
+		  Statement sta =(Statement)con.createStatement();
+		  int n =sta.executeUpdate("insert studentinfo values ('10001','小居居',18)");
+		  if(n>0){
+			  System.out.println("添加成功！");
+		  }
+	  }
+	  catch(ClassNotFoundException e){
+		  System.out.println("无法找到驱动类");
+	  }
+	  catch(SQLException sql){
+		  System.out.println("连接异常");
+	  }
+  }
+}
+
+
+查询
+                  Statement sta =(Statement)con.createStatement();
+		  ResultSet rs =(ResultSet) sta.executeQuery("select * from studentinfo");
+		  while (rs.next()){
+			  String xh=rs.getString(1);
+			  System.out.println("学号"+xh);
+			  String name=rs.getString(2);
+			  System.out.println("名字"+name);
+			  int age=rs.getInt(1);
+			  System.out.println("年龄"+age);
+			  
+		  }
